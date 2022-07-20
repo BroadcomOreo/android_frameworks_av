@@ -4833,7 +4833,15 @@ void ACodec::processDeferredMessages() {
     }
 }
 
+// static
+bool ACodec::describeDefaultColorFormat(DescribeColorFormat2Params &params) {
+    MediaImage2 &image = params.sMediaImage;
+    memset(&image, 0, sizeof(image));
 
+    image.mType = MediaImage2::MEDIA_IMAGE_TYPE_UNKNOWN;
+    image.mNumPlanes = 0;
+
+    const OMX_COLOR_FORMATTYPE fmt = params.eColorFormat;
     switch(params.eColorFormat){
        case OMX_COLOR_FormatYCbYCr:{
             params.eColorFormat = (OMX_COLOR_FORMATTYPE)HAL_PIXEL_FORMAT_YV12;
@@ -4842,6 +4850,8 @@ void ACodec::processDeferredMessages() {
         default:
        break;
     }
+    image.mWidth = params.nFrameWidth;
+    image.mHeight = params.nFrameHeight;
 
 status_t ACodec::getPortFormat(OMX_U32 portIndex, sp<AMessage> &notify) {
     const char *niceIndex = portIndex == kPortIndexInput ? "input" : "output";
