@@ -1118,7 +1118,7 @@ status_t ACodec::setupNativeWindowSizeFormatAndUsage(
     switch (def.format.video.eColorFormat) {
         case OMX_COLOR_FormatYCbYCr:
             def.format.video.eColorFormat = OMX_COLOR_FormatYUV420Planar;
-            omxresuilts = mOMX->setParameter(mNode, OMX_IndexParamPortDefinition, &def, sizeof(def));
+            omxresuilts = mOMXNode->setParameter(OMX_IndexParamPortDefinition, &def, sizeof(def));
             if (omxresuilts != OK) {
                 ALOGE("PATCH:ACodec:configureOutputBuffersFromNativeWindow setParameter(OMX_IndexParamPortDefinition) ERROR");
             }
@@ -3111,7 +3111,7 @@ status_t ACodec::setVideoPortFormatType(
     if(format.eColorFormat == OMX_COLOR_FormatYCbYCr){
         if (!strncmp(mComponentName.c_str(), "OMX.brcm.", 9)){
             format.eColorFormat = OMX_COLOR_FormatYUV420Planar;
-            status_t errs = mOMX->setParameter(mNode, OMX_IndexParamVideoPortFormat, &format, sizeof(format));
+            status_t errs = mOMXNode->setParameter(OMX_IndexParamVideoPortFormat, &format, sizeof(format));
                 if (errs != OK){
                     ALOGE("PATCH:ACodec:setVideoPortFormatType setParameter failed: %d", errs);
                 }
@@ -3132,8 +3132,8 @@ status_t ACodec::setVideoPortFormatType(
         if (!strncmp("OMX.brcm.video.h264.hw.decoder", mComponentName.c_str(), 30)) {
             format.eColorFormat = OMX_COLOR_FormatYUV420Planar;
         }
-        err = mOMX->getParameter(
-                mNode, OMX_IndexParamVideoPortFormat,
+        err = mOMXNode->getParameter(
+                OMX_IndexParamVideoPortFormat,
                      &format, sizeof(format));
         if((unsigned int)err == 0x80001005){
             err= OMX_ErrorNoMore;
@@ -3252,8 +3252,8 @@ status_t ACodec::setSupportedOutputFormat(bool getLegacyFlexibleFormat) {
         if (format.eColorFormat == OMX_COLOR_FormatYUV420Planar) {
             while (OMX_ErrorNoMore != err) {
             format.nIndex++;
-            err = mOMX->getParameter(
-                    mNode, OMX_IndexParamVideoPortFormat,
+            err = mOMXNode->getParameter(
+                    OMX_IndexParamVideoPortFormat,
                         &format, sizeof(format));
             if((unsigned int)err == 0x80001005){
                 err = OMX_ErrorNoMore;
@@ -8408,10 +8408,10 @@ status_t ACodec::queryCapabilities(
             }
  //           caps->addColorFormat(portFormat.eColorFormat);
             if(portFormat.eColorFormat == OMX_COLOR_FormatYCbYCr) {
-                supportedColors.push(OMX_COLOR_FormatYUV420Planar);
+//                supportedColors.push(OMX_COLOR_FormatYUV420Planar);
                 caps->addColorFormat(OMX_COLOR_FormatYUV420Planar);
             }else{
-                supportedColors.push(portFormat.eColorFormat);
+//                supportedColors.push(portFormat.eColorFormat);
                 caps->addColorFormat(portFormat.eColorFormat);
             }
             if (index == kMaxIndicesToCheck) {
