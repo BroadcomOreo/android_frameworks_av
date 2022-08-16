@@ -2300,12 +2300,12 @@ status_t ACodec::configureCodec(
      //   err = OK; // ignore errors
     //}
 
-    //if (err == OK) {
-     //   err = setVendorParameters(msg);
-      //  if (err != OK) {
-       //     return err;
-       // }
-    //}
+    if (err == OK) {
+        err = setVendorParameters(msg);
+        if (err != OK) {
+            return err;
+        }
+    }
 
     // NOTE: both mBaseOutputFormat and mOutputFormat are outputFormat to signal first frame.
     mBaseOutputFormat = outputFormat;
