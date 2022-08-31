@@ -205,6 +205,16 @@ bool DescribeDefaultColorFormat(DescribeColorFormat2Params &params) {
     image.mNumPlanes = 0;
 
     const OMX_COLOR_FORMATTYPE fmt = params.eColorFormat;
+
+    switch(params.eColorFormat){
+        case OMX_COLOR_FormatYCbYCr:{
+            params.eColorFormat = (OMX_COLOR_FORMATTYPE)HAL_PIXEL_FORMAT_YV12;
+        }
+        break;
+        default:
+        break;
+    }
+
     image.mWidth = params.nFrameWidth;
     image.mHeight = params.nFrameHeight;
 
