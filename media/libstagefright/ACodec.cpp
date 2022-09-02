@@ -1794,8 +1794,6 @@ status_t ACodec::configureCodec(
 //       }
     }
 #ifdef HAWAII_HWC
-cout << "Hello World!";
-cout << "its working!";
     else if (!strncmp(mComponentName.c_str(), "OMX.brcm.video.h264.hw.decoder", 30)) {
            setMinBufferSize(kPortIndexInput, (1280 * 720 * 3) / 2);
     }
