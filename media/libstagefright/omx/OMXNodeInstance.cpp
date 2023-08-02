@@ -1732,6 +1732,7 @@ int OMXNodeInstance::retrieveFenceFromMeta_l(
     int fenceFd = -1;
     if (mMetadataType[portIndex] == kMetadataBufferTypeANWBuffer
             && header->nAllocLen >= sizeof(VideoNativeMetadata)) {
+#ifndef HAWAII_HWC
         VideoNativeMetadata &nativeMeta = *(VideoNativeMetadata *)(header->pBuffer);
         if (nativeMeta.eType == kMetadataBufferTypeANWBuffer) {
             fenceFd = nativeMeta.nFenceFd;
@@ -1742,6 +1743,7 @@ int OMXNodeInstance::retrieveFenceFromMeta_l(
                     NULL, header, nativeMeta.nFenceFd));
             fenceFd = -1;
         }
+#endif       
     }
     return fenceFd;
 }
